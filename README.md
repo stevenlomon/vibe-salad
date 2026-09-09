@@ -6,3 +6,6 @@
 
 Original repo for the school project: https://github.com/stevenlomon/FSU-kunskapskontroll-3  
 This is a continuation repo for development and maintaining
+
+With the main limitation of the project [now taken care of](https://github.com/stevenlomon/vibe-salad/pull/2), it's now live at https://stevenlomon.github.io/vibe-salad/  
+It is so incredibly satisfying to hit shuffle haha 🎲  
