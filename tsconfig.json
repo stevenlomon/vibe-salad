@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // File layout
-    "rootDirs": ["./scripts", "./Spoopify Dummy Backend"],
+    "rootDir": "./scripts",
     "outDir": "./dist",
 
     // Environment settings
