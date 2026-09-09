@@ -122,11 +122,14 @@ async function fetchAll(params: Record<string, string> = {}): Promise<Track[]> {
     return data.tracks?.items || [];
   }
 
-  // Shuffle mode: 5 parallel requests x 2 tracks each, all with different random queries
+  // Shuffle mode: 5 parallel requests x 3 tracks each, all with different random queries
+  // Once we have our 15 tracks and we remove the potential duplicates, we then cap it to 10 to 
+  // guarantee that we don't fall short on songs in the grid
   const hasFilters = !!params.genre || !!params.decade;
   const maxOffset = hasFilters ? 50 : 900;
+  const TARGET = 10;
   const BATCH_COUNT = 5;
-  const PER_BATCH = 2;
+  const PER_BATCH = 3;
 
   const fetches = Array.from({ length: BATCH_COUNT }, () => {
     const query = getRandomQuery() + filterSuffix;
@@ -162,7 +165,7 @@ async function fetchAll(params: Record<string, string> = {}): Promise<Track[]> {
       return true;
     });
 
-    return shuffleArray(unique);
+    return shuffleArray(unique).slice(0, TARGET);
   } catch (error) {
     console.error('Error fetching tracks:', error);
     throw error;
