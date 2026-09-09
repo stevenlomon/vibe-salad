@@ -1,4 +1,4 @@
-import { type Track, type TrackDetails, generateAccessToken, fetchAll, fetchById } from "./api.js";
+import { type Track, type TrackDetails, fetchAll, fetchById } from "./api.js";
 import { getRandomLetter, isExplicit, convertMillisecondsDuration } from "./utils.js";
 
 const mainContainer = document.getElementById('container');
@@ -187,17 +187,7 @@ async function init() {
     ViewRenderer.renderLoading();
 
     try {
-        // 1. Token Logic
-        // Prompt 18: Use getAccessTokenFromStorage to check to see if we have an Access Token in localStorage. If we don't, call generateAccessToken to generate one and save it to localStorage with saveAccessTokenToStorage
-        if (!DataStore.getAccessTokenFromStorage()) {
-            const token = await generateAccessToken();
-            DataStore.saveAccessTokenToStorage(token.access_token);
-
-            // Prompt 19: Also store an expiration timestamp (current time + (3600 * 1000) ms (an hour)) in localStorage
-            localStorage.setItem('tokenExpiration', String(Date.now() + 3600 * 1000));
-        }
-
-        // 2. NEW Load Saved Filters (just copied from Gemini and not prompted since I'm 99% done and want to be 100% done haha)
+        // Load saved filters
         DataStore.loadFilterStateFromStorage();
 
         // Restore UI (Update the inputs to match state)
