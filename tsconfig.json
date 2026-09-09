@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    // File layout
+    "rootDirs": ["./scripts", "./Spoopify Dummy Backend"],
+    "outDir": "./dist",
+
+    // Environment settings
+    "module": "esnext",
+    "target": "esnext",
+    "types": [],
+
+    // Other Outputs
+    "sourceMap": false,
+    "declaration": false,
+    "declarationMap": false,
+
+    // Stricter Typechecking options
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    
+    // Recommended Options
+    "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+  }
+}

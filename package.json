@@ -1,0 +1,36 @@
+{
+  "name": "fsu-kunskapskontroll-3",
+  "version": "1.0.0",
+  "description": "Jag tänker använda Spotifys API för att bygga ut en sida som visar ca 30 random låtar på startsidan med sökfunktionalitet och en \"Re-shuffle\" knapp för att \"shuffla\" fram nya random låtar. Denna lilla lista på ca 30 låtar blir the \"List view\" (första anropet). Och när man klickar på en låt går man till \"Detailed view\" (andra anropet). Om Spotify gör det lätt kan man säkert lägga till \"Songs like these\" när man är i detailed view. Sidan kommer stylas med AI som skriver CSS efter prompts. Kommer satsa på typ \"minimalistic, sleek, modern but still fun\" feel",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-config": "node scripts/generate-config.cjs",
+    "build": "npm run generate-config && tsc",
+    "start": "tsx --tsconfig tsconfig.server.json \"Spoopify Dummy Backend/server.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StevenCesario/FSU-kunskapskontroll-3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/StevenCesario/FSU-kunskapskontroll-3/issues"
+  },
+  "homepage": "https://github.com/StevenCesario/FSU-kunskapskontroll-3#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.2.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

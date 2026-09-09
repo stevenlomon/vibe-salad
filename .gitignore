@@ -1,0 +1,38 @@
+package-lock.json
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production Build
+dist/
+build/
+
+# Environment Variables (Security Best Practice)
+.env
+.env.test
+.env.production
+.env.local
+scripts/config.ts
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs
+*.log
+npm-debug.log.*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*.swo

@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // 1. Set output to CommonJS (Standard for Node.js backends)
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    // 2. Enable "Interop" so 'import express from "express"' works
+    "esModuleInterop": true,
+
+    // 3. Disable the strict syntax checks that are annoying you
+    "verbatimModuleSyntax": false,
+    "noUncheckedIndexedAccess": false
+  }
+}

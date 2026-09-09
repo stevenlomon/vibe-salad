@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Salad</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <script type="module" src="./dist/scripts/script.js"></script>
+</head>
+<body>
+    <div class="layout-container">
+
+        <!-- Prompt 1: Generate an HTML body that has a <header> tag that for now only contains an <img> tag, followed by a <div> that contains a text <input> field and three drop downs - these three will be flex horizontally aligned -, and finally a <main> tag with id container -->
+        <header>
+            <h2>Vibe Salad</h2>
+        </header>
+
+        <div id="nav">
+            <div class="navbar-detailed-view hidden">
+                <button id="back-btn">⬅️ Go back</button>
+            </div>
+            <div class="navbar-list-view">
+                <input type="text" id="search-input" placeholder="Search for a vibe...">
+                <select id="genre-select">
+                    <option value="" disabled selected>Genre</option>
+                    <option value="pop">Pop</option>
+                    <option value="hip-hop">Hip Hop</option>
+                    <option value="electronic">Electronic</option>
+                    <option value="rock">Rock</option>
+                    <option value="metal">Metal</option>
+                    <option value="any">Any!</option>
+                </select>
+                <select id="decade-select">
+                    <option value="" disabled selected>Decade</option>
+                    <option value="2020-2029">2020s</option>
+                    <option value="2010-2019">2010s</option>
+                    <option value="2000-2009">2000s</option>
+                    <option value="1990-1999">90s</option>
+                    <option value="1980-1989">80s</option>
+                    <option value="1970-1979">70s</option>
+                    <option value="1960-1969">60s</option>
+                    <option value="any">Any!</option>
+                </select>
+                <button id="re-shuffle">Re-shuffle! 🎲</button>
+            </div>
+        </div>
+        
+        <main id="container">
+            <!-- Prompt 2: Generate 10 divs in total, each with the class `track-item`. The div should contain of an image that will be a square image of the album, and for now three <p> tags for artist, album, and year. I still haven't fully decided if these three texts will be overlaid over the album image or under it, we'll test both and see. The value for these will all be dynamically populated with JS and this HTML block will therefore be commented out once styling has been applied and we have ensured it looks like we want to. They will be styled with grid display in style.css; 5 in one row -->
+            <!-- <div class="track-container">
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+                <div class="track-item">
+                    <img src="./img/sgt-pepper.jpg" alt="Album Cover">
+                    <p>Artist Name</p>
+                    <p>Album Title</p>
+                    <p>Year</p>
+                </div>
+            </div> -->
+            <!-- <div class="track-detailed-view"> -->
+                <!-- Prompt 10: Write HTML for the detailed view: an image, name as h1, artist and album as h3, year, duration and explicit as p, and finally button that says "Listen on Spotify" -->
+                <!-- <div class="track-detailed-view-media-wrapper">
+                    <img src="./img/sgt-pepper.jpg" alt="Track Cover">
+                </div>
+                <div class="track-detailed-view-info-wrapper">
+                    <h1>Track Name</h1>
+                    <h3>Artist Name</h3>
+                    <h3>Album Title</h3>
+                    <p>Year</p>
+                    <p>Duration</p>
+                    <p>Explicit</p>
+                    <button>Listen on Spotify</button>
+                </div>
+            </div> -->
+        </main>
+    </div>
+
+</body>
+</html>

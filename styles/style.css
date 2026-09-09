@@ -1,0 +1,346 @@
+/* Prompt 4: Generate general page CSS for a modern music discovery site. This is my site vision: `Jag tänker använda Spotifys API för att bygga ut en sida som visar ca 30 random låtar på startsidan med sökfunktionalitet och en "Re-shuffle" knapp för att "shuffla" fram nya random låtar. Denna lilla lista på ca 30 låtar blir the "List view" (första anropet). Och när man klickar på en låt går man till "Detailed view" (andra anropet). Om Spotify gör det lätt kan man säkert lägga till "Songs like these" när man är i detailed view. Sidan kommer stylas med AI som skriver CSS efter prompts. Kommer satsa på typ "minimalistic, sleek, modern but still fun" feel`. Make the site centered and let's use Spotify's own color scheme; the Spotify green #1ED760, white #FFFFFF and black #121212. Let's start with this and iterate. */
+:root {
+    --spotify-green: #1ED760;
+    --spotify-black: #121212;
+    --spotify-card: #181818;
+    --spotify-grey: #2A2A2A;
+    --spotify-white: #FFFFFF;
+}
+
+body {
+    background-color: var(--spotify-black);
+    color: var(--spotify-white);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin: 0;
+}
+
+/* Prompt 27: Reset the style for <a> tags */
+a {
+    color: var(--spotify-black);
+    text-decoration: none;
+}
+
+/* --- THE FIX: Centered Layout Container --- */
+.layout-container {
+    max-width: 1600px; /* Limits width on large screens */
+    width: 100%;
+    margin: 0 auto; /* Centers the container */
+    padding: 2rem;  /* Adds breathing room on sides */
+}
+
+/* --- Header & Nav --- */
+header {
+    margin-bottom: 2rem;
+}
+
+.site-logo {
+    max-height: 50px; /* Keeps logo from getting too huge */
+}
+
+/* --- Updated Nav Container --- */
+#nav {
+    display: flex;
+    /* We remove justify-content: space-between here because the 
+       children now control their own layout */
+    align-items: center; 
+    margin-bottom: 2rem;
+    min-height: 3rem; /* Prevents layout jump when switching views */
+}
+
+/* --- The List View Wrapper --- */
+/* This container now acts as the flex parent for the search/dropdowns */
+.navbar-list-view {
+    display: flex;
+    justify-content: space-between; /* This restores the original behavior */
+    align-items: center;
+    width: 100%; /* Important: Ensures it fills the #nav container */
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* --- The Detailed View Wrapper --- */
+.navbar-detailed-view {
+    /* Since this button usually sits alone on the left, 
+       default block or flex behavior works fine. 
+       We just ensure it doesn't collapse if empty. */
+    display: flex; 
+    align-items: center;
+}
+
+/* --- Back Button Style --- */
+#back-btn {
+    background-color: transparent; /* Clean look */
+    color: var(--spotify-white);
+    border: 1px solid var(--spotify-grey);
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+#back-btn:hover {
+    background-color: var(--spotify-grey);
+    border-color: var(--spotify-white);
+    transform: translateX(-5px); /* Fun little "point left" animation */
+}
+
+/* Search Input */
+input[type="text"] {
+    background-color: var(--spotify-white);
+    border: none;
+    border-radius: 500px;
+    padding: 0.8rem 1.5rem;
+    width: 300px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+/* Dropdown Container */
+.filter-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Styling the Dropdowns (Selects) */
+select {
+    appearance: none; /* Removes default OS styling */
+    background-color: var(--spotify-grey);
+    color: var(--spotify-white);
+    border: 1px solid transparent;
+    border-radius: 500px;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.7rem auto;
+    padding-right: 2.5rem; /* Make room for the arrow */
+}
+
+select:hover {
+    background-color: #3E3E3E;
+}
+
+/* Prompt 5: Generate CSS styling for the following HTML button: `<button id="re-shuffle">Re-shuffle! 🎲</button>` that is also in the nav together with the input and the three drop down selects. Make it coherent and aligned with the rest of the CSS */
+/* Re-shuffle Button */
+#re-shuffle {
+    background-color: var(--spotify-green);
+    color: var(--spotify-black);
+    border: none;
+    border-radius: 500px;
+    padding: 0.8rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+    white-space: nowrap;
+}
+
+#re-shuffle:hover {
+    background-color: #1fdf64;
+    transform: scale(1.04);
+}
+
+#re-shuffle:active {
+    transform: scale(1);
+    opacity: 0.9;
+}
+
+
+/* --- Grid Layout --- */
+/* Prompt 3: Generate a CSS rule for the class track-item where the focus is on making them display grid and ensure max 5 items per row. This is a follow up of this prompt: `Prompt 2: Generate 10 divs in total, each with the class `track-item`. The div should contain of an image that will be a square image of the album, and for now three <p> tags for artist, album, and year. I still haven't fully decided if these three texts will be overlaid over the album image or under it, we'll test both and see. The value for these will all be dynamically populated with JS and this HTML block will therefore be commented out once styling has been applied and we have ensured it looks like we want to. They will be styled with grid display in style.css; 5 in one row` */
+.track-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+}
+
+.track-item {
+    background-color: var(--spotify-card);
+    padding: 1rem;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.track-item:hover {
+    background-color: #282828;
+}
+
+.track-item img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.track-info p {
+    margin: 0.2rem 0;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.track-name { font-weight: 700; color: #fff; }
+.track-album { color: #b3b3b3; font-size: 0.85rem; }
+.track-year { color: #b3b3b3; font-size: 0.8rem; }
+
+/* --- Detailed View Layout --- */
+/* Generated outside of Antigravity, once again with Gemini */
+.track-detailed-view {
+    display: flex;
+    align-items: center; /* Vertically centers the text with the image */
+    gap: 4rem; /* Generous spacing between the two columns */
+    padding: 2rem 0;
+    animation: fadeIn 0.5s ease-out; /* Smooth entry animation */
+}
+
+/* --- Left Column: Media (approx 50%) --- */
+.track-detailed-view-media-wrapper {
+    flex: 1; /* Takes up equal space */
+    display: flex;
+    justify-content: flex-end; /* Aligns image towards the center gap */
+}
+
+.track-detailed-view-media-wrapper img {
+    width: 100%;
+    max-width: 600px; /* Prevents image from becoming huge on ultra-wide screens */
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6); /* Deep, dramatic shadow */
+}
+
+/* --- Right Column: Info (approx 50%) --- */
+.track-detailed-view-info-wrapper {
+    flex: 1; /* Takes up equal space */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start; /* Aligns text to the left */
+    gap: 0.5rem;
+}
+
+/* Typography for Detailed View */
+.track-detailed-view-info-wrapper h1 {
+    font-size: 3.5rem; /* Massive, impactful title */
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+    color: var(--spotify-white);
+}
+
+.track-detailed-view-info-wrapper h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--spotify-light-grey); /* Standard secondary text color */
+    margin: 0;
+}
+
+/* Metadata (Year, Duration, Explicit) */
+.track-detailed-view-info-wrapper p {
+    color: #B3B3B3;
+    font-size: 1rem;
+    margin: 0.2rem 0;
+    font-weight: 400;
+}
+
+/* The "Listen on Spotify" Button */
+.track-detailed-view-info-wrapper button {
+    margin-top: 1.5rem; /* Pushes it away from the text */
+    padding: 1rem 2.5rem; /* Larger than the shuffle button */
+    font-size: 1.1rem;
+    background-color: var(--spotify-green);
+    color: black;
+    box-shadow: 0 4px 15px rgba(30, 215, 96, 0.3); /* Green glow */
+}
+
+.track-detailed-view-info-wrapper button:hover {
+    transform: scale(1.05);
+    background-color: #1fdf64; /* Slightly brighter on hover */
+    box-shadow: 0 6px 20px rgba(30, 215, 96, 0.5);
+}
+
+/* --- Mobile Responsiveness for Detailed View --- */
+@media (max-width: 768px) {
+    .track-detailed-view {
+        flex-direction: column; /* Stack them vertically */
+        text-align: center; /* Center align text */
+        gap: 2rem;
+    }
+
+    .track-detailed-view-media-wrapper {
+        justify-content: center; /* Center image horizontally */
+        width: 100%;
+    }
+
+    .track-detailed-view-media-wrapper img {
+        max-width: 300px; /* Smaller image on mobile */
+    }
+
+    .track-detailed-view-info-wrapper {
+        align-items: center; /* Center button and text */
+        width: 100%;
+    }
+
+    .track-detailed-view-info-wrapper h1 {
+        font-size: 2rem; /* Smaller title for mobile */
+    }
+}
+
+/* Simple Fade In Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Prompt 29: Model the above and write a simple "Fade Back" animation that is shown when switching from Detailed View back to List View */
+@keyframes fadeBack {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+.fade-back {
+    /* 'forwards' makes the element stay invisible after the animation ends */
+    animation: fadeBack 0.5s ease-out forwards;
+}
+
+/* Prompt 11: Write a hidden class that can be toggled on divs to hide/show them */
+.hidden {
+    display: none !important;
+}
+
+/* Prompt 28: Write a CSS animation for a Loading State UX Spinning vinyl with a white thin border. It should be centered in the screen and pretty big! It should be applied to the div with class `loading-state` */
+.loading-state {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border: 3px solid var(--spotify-white);
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, #383838, var(--spotify-black));
+    animation: spin 2s linear infinite;
+    z-index: 9999;
+    box-shadow: 0 0 30px rgba(30, 215, 96, 0.3);
+}
+
+.loading-state::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    background-color: var(--spotify-black);
+    border-radius: 50%;
+    border: 2px solid var(--spotify-green);
+}
+
+@keyframes spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
