@@ -9,3 +9,5 @@ This is a continuation repo for development and maintaining
 
 With the main limitation of the project [now taken care of](https://github.com/stevenlomon/vibe-salad/pull/2), it's now live at https://stevenlomon.github.io/vibe-salad/  
 It is so incredibly satisfying to hit shuffle haha 🎲  
+
+Edit: Now live at https://vibe-salad.vercel.app/! Turns out *the* biggest limitation was my API credentials being available to anyone with Devtools! [Now taken care of with Vercel Edge Functions](https://github.com/stevenlomon/vibe-salad/pull/4)
