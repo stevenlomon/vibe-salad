@@ -8,6 +8,35 @@ function getRandomLetter(): string {
   return alphabet[Math.floor(Math.random() * alphabet.length)]!;
 }
 
+// Improved random query generator. Now uses chunks of letters and wildcards!
+function getRandomQuery(): string {
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const pick = () => alphabet[Math.floor(Math.random() * alphabet.length)]!;
+
+  const strategies = [
+    // 2-letter combo: "lo", "ba", "th"
+    () => pick() + pick(),
+    // Wildcard sandwich: "a%e", "m%s"
+    () => pick() + '%' + pick(),
+    // Leading wildcard: "%k", "%r"
+    () => '%' + pick(),
+    // Single letter (keep some of the old behavior)
+    () => pick(),
+  ];
+
+  return strategies[Math.floor(Math.random() * strategies.length)]!();
+}
+
+// A function entirely dedicated to shuffling!
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
+  }
+  return shuffled;
+}
+
 // Prompt 26: Write a helper function isExplicit. It takes a boolean `exp` as input argument and returns "explicit" if it is true, else "not explicit"
 function isExplicit(exp: boolean): string {
     return exp ? "Explicit" : "Not Explicit";
@@ -37,4 +66,4 @@ function convertMillisecondsDuration(duration_ms: number): string {
 // }
 // Ended up not getting used since I realized we can just change the HTML option values to align with the API from the get go
 
-export { getRandomLetter, isExplicit, convertMillisecondsDuration }
+export { getRandomLetter, getRandomQuery, shuffleArray, isExplicit, convertMillisecondsDuration }
