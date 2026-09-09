@@ -1,4 +1,4 @@
-import { getRandomLetter } from "./utils.js";
+import { getRandomQuery, shuffleArray } from "./utils.js";
 import { CLIENT_ID, CLIENT_SECRET } from "./config.js";
 
 // Prompt 23: Write and export a TS interface for SpotifyTokenResponse. It has `access_token` and `token_type` that are both string, as well as `expires_in` which is a number
@@ -91,80 +91,81 @@ async function getValidAccessToken(): Promise<string> {
   return data.access_token;
 }
 
-// We need to update this, I've misunderstood and misinterpreted the Spotify API
-// Prompt 8: Write two async functions called fetchAll (zero input arguments) and fetchById (takes trackId) that both use try/catch blocks to make an await fetch request to a placeholder URL. The catch block should return an error from the requst if available
 async function fetchAll(params: Record<string, string> = {}): Promise<Track[]> {
   const token = await getValidAccessToken();
   const headers = { 'Authorization': 'Bearer ' + token }
-  
-  // Now uses v2 of Random Fetch: 1 request instead of 5 using `offset`
-  
-  // 1. Determine Mode & Basic Query
+
   const isSearchMode = !!params.q;
-  let query: string = params.q || ''; 
-  let offset = 0;
 
-  // Prompt 34: Write the logic if we're not in "search mode". Update `query` to be a random letter using getRandomLetter. Update offset by first initializing `maxOffset` to 50 and then using Math.floor, Math.random() and maxOffset.
-  // The code from prompt 34 got overwritten by Gemini when I realized I've interpreted the API wrong in the final stretch
-  if (!isSearchMode) {
-    query = getRandomLetter();
+  // Build the filter suffix once (genre/decade)
+  let filterSuffix = '';
+  if (params.genre) filterSuffix += ` genre:${params.genre}`;
+  if (params.decade) filterSuffix += ` year:${params.decade}`;
 
-    // Generate a random offset
-    // Real Spotify allows up to 1000. Our Dummy Backend has ~100 items.
-    // We'll use 50 to be safe for the Dummy, but we can bump this to 900 for real API.
-
-    // Safety: If we are filtering by genre/decade, the pool of results is smaller.
-    // We lower the random offset to avoid "Index Out of Bounds" (getting 0 results).
-    const hasFilters = params.genre || params.decade;
-    const maxOffset = hasFilters ? 50 : 900;
-
-    offset = Math.floor(Math.random() * maxOffset);
-  }
-
-  // 2. Construct the "Advanced" Spotify Query
-  // We append the filters directly to the query string using the "key:value" syntax
-  let spotifyQuery = query;
-
-  if (params.genre) {
-    // Appends " genre:pop"
-    spotifyQuery += ` genre:${params.genre}`;
-  }
-
-  if (params.decade) {
-    // Appends " year:1980-1989"
-    // Note: Spotify uses the keyword 'year' for dates/decades!
-    spotifyQuery += ` year:${params.decade}`;
-  }
-
-  // 3. Construct the clean URL (The Pragmatic Way)
-  // Prompt 35: Initialize searchParams using URLSearchParams with `q`, `type` ('track'), `market` ('SE'), `limit` (10), `offset` (our offset as a string), and then spread the rest of the params keys.
-  // The code from prompt 35 got overwritten by Gemini when I realized I've interpreted the API wrong in the final stretch
-  // 3. Configure parameters
-  const searchParams = new URLSearchParams({
-    q: spotifyQuery, // Use our new combined string
-    type: 'track',
-    market: 'SE',
-    limit: '10',
-    offset: offset.toString(),
-  });
-
-  // 4. The single elegant request
-  try {
-    // Pass the headers in the options object
-    const response = await fetch(`https://api.spotify.com/v1/search?${searchParams.toString()}`, {
-      method: 'GET',
-      headers: headers
+  if (isSearchMode) {
+    // User searched for something specific — single request, 10 results
+    const searchParams = new URLSearchParams({
+      q: params.q + filterSuffix,
+      type: 'track',
+      market: 'SE',
+      limit: '10',
     });
 
-    if (!response.ok) {
-          throw new Error(`API Error: ${response.statusText}`);
-      }
+    const response = await fetch(`https://api.spotify.com/v1/search?${searchParams.toString()}`, {
+      method: 'GET',
+      headers: headers,
+    });
 
-    // Cast the JSON to our TracksList interface first
+    if (!response.ok) throw new Error(`API Error: ${response.statusText}`);
+
     const data: TracksList = await response.json();
-
-    // Design by Contract: Always return an array, even if empty)
     return data.tracks?.items || [];
+  }
+
+  // Shuffle mode: 5 parallel requests x 3 tracks each, all with different random queries
+  // Once we have our 15 tracks and we remove the potential duplicates, we then cap it to 10 to 
+  // guarantee that we don't fall short on songs in the grid
+  const hasFilters = !!params.genre || !!params.decade;
+  const maxOffset = hasFilters ? 50 : 900;
+  const TARGET = 10;
+  const BATCH_COUNT = 5;
+  const PER_BATCH = 3;
+
+  const fetches = Array.from({ length: BATCH_COUNT }, () => {
+    const query = getRandomQuery() + filterSuffix;
+    const offset = Math.floor(Math.random() * maxOffset);
+
+    const searchParams = new URLSearchParams({
+      q: query,
+      type: 'track',
+      market: 'SE',
+      limit: PER_BATCH.toString(),
+      offset: offset.toString(),
+    });
+
+    return fetch(`https://api.spotify.com/v1/search?${searchParams.toString()}`, {
+      method: 'GET',
+      headers: headers,
+    }).then(res => {
+      if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
+      return res.json() as Promise<TracksList>;
+    });
+  });
+
+  try {
+    const results = await Promise.all(fetches);
+
+    const allTracks = results.flatMap(data => data.tracks?.items || []);
+
+    // Deduplicate by track id in case two queries returned the same track
+    const seen = new Set<string>();
+    const unique = allTracks.filter(track => {
+      if (seen.has(track.id)) return false;
+      seen.add(track.id);
+      return true;
+    });
+
+    return shuffleArray(unique).slice(0, TARGET);
   } catch (error) {
     console.error('Error fetching tracks:', error);
     throw error;
