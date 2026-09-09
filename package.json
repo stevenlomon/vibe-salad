@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "generate-config": "node scripts/generate-config.cjs",
-    "build": "npm run generate-config && tsc",
+    "build": "tsc",
     "start": "tsx --tsconfig tsconfig.server.json \"Spoopify Dummy Backend/server.ts\""
   },
   "repository": {
